@@ -4,7 +4,7 @@ import com.guoguocai.simplefactory.demo.factory.OperationFactory;
 import com.guoguocai.simplefactory.demo.interfaces.Operation;
 
 /**
- * 客户端
+ * 客户端，可根据需要灵活传参。
  *
  * 以计算器的加、减、乘、除为例，演示简单工厂模式。
  *
