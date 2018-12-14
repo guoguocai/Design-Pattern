@@ -1,5 +1,6 @@
-package com.guoguocai.factorymethod.demo.imp;
+package com.guoguocai.factorymethod.demo.factoryimp;
 
+import com.guoguocai.factorymethod.demo.operationimp.OperationAdd;
 import com.guoguocai.factorymethod.demo.interfaces.IFactory;
 import com.guoguocai.factorymethod.demo.interfaces.IOperation;
 

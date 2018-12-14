@@ -1,9 +1,9 @@
 package com.guoguocai.simplefactory.demo.factory;
 
-import com.guoguocai.simplefactory.demo.imp.OperationAdd;
-import com.guoguocai.simplefactory.demo.imp.OperationDiv;
-import com.guoguocai.simplefactory.demo.imp.OperationMul;
-import com.guoguocai.simplefactory.demo.imp.OperationSub;
+import com.guoguocai.simplefactory.demo.operationimp.OperationAdd;
+import com.guoguocai.simplefactory.demo.operationimp.OperationDiv;
+import com.guoguocai.simplefactory.demo.operationimp.OperationMul;
+import com.guoguocai.simplefactory.demo.operationimp.OperationSub;
 import com.guoguocai.simplefactory.demo.interfaces.Operation;
 
 /**

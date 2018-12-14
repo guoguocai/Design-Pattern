@@ -1,14 +1,13 @@
-package com.guoguocai.factorymethod.demo.imp;
+package com.guoguocai.simplefactory.demo.operationimp;
 
-import com.guoguocai.factorymethod.demo.interfaces.IOperation;
+import com.guoguocai.simplefactory.demo.interfaces.Operation;
 
 /**
  * 除法类
- *
  * @auther guoguocai
- * @date 2018/12/13 22:13
+ * @date 2018/12/10 22:03
  */
-public class OperationDiv extends IOperation {
+public class OperationDiv extends Operation {
 
     @Override
     public double getResult() {
