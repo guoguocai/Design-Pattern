@@ -23,6 +23,8 @@ public class Client {
 
     public static void main(String[] args) {
 
+        System.out.println("Demo2:");
+
         User user = new User();
         IUserOperation userOper = DataAccess.createUserOperation();
         userOper.insertUser(user);
