@@ -42,10 +42,42 @@ Demo：
 模式把简单工厂的内部逻辑判断转移到了客户端来进行，客户端需要决定实例化哪一个子  
 类工厂来实现运算类，**选择判断的问题依然存在。**
 
-### 4. 抽象工厂模式 PART1
+### 4. 抽象工厂模式
+
+#### 4.1 抽象工厂标准写法
 
 优点：  
 易于交换某一产品系列。  
 
-Demo：  
-某一网站是基于 SqlServer 数据库运行的，现在要将其改为基于 Oracle 数据库运行。
+Demo1：  
+某一网站是基于 SqlServer 数据库运行的，现在要将其改为基于 Oracle 数据库运行。  
+最终的目的是能够修改一处就能灵活转换系统所使用的数据库，Demo1 以对 User 表和   
+Department 表的操作举例说明。
+
+缺点：  
+  
+a、一个系统访问数据库表的客户端不可能只有一个，因此如果整个系统要更换使用的数据  
+库的话，那么就要将所有客户端（Client）中的:（例如）  
+    IFactory factory = new OracleFactory();  
+改为:      
+    IFactory factory = new SqlServerFactory();  
+这**不能实现改动一处就更改全部**的要求，这是抽象工厂 Demo1 的缺点之一。
+
+b、如果以后客户端要访问一张新表，例如要新增部门表（Department），那么除了要增加   
+「IDepartmentOperation、OracleDepartOper、SqlServerDepartOper」   
+这三个新的类以外，还要修改原有的   
+「IFactory、OracleFactory、SqlServerFactory」   
+这三个工厂类才可以完全实现，这样**大批量地改动原有类**的做法是不好的，是 Demo1 的另  
+一个缺点。
+
+#### 4.2 用简单工厂来改进抽象工厂
+
+用 DataAccess 类取代之前的 IFactory、OracleFactory、SqlServerFactory 三个  
+工厂类，并在 DataAccess 类中预设数据库，客户端只需调用，不用传参。  
+
+采用这样的结构之后，一旦增加新的数据库或是对新表的操作，只需要修改 DataAccess   
+类即可，相比 Demo1 而言修改的类变少了，比 Demo1 的结构要好一些，但是同时也带来  
+了简单工厂模式的缺点。
+
+Demo2：
+用简单工厂来改进 Demo1。

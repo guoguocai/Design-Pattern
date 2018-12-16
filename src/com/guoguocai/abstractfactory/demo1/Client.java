@@ -11,7 +11,7 @@ import com.guoguocai.abstractfactory.demo1.po.User;
 /**
  * 实际上，一个系统访问数据库表的客户端不可能只有一个，
  * 因此如果整个系统要更换使用的数据库的话，那么就要将
- * 客户端中所有的:（举例）
+ * 所有客户端中的:（例如）
  * IFactory factory = new OracleFactory();
  * 改为: IFactory factory = new SqlServerFactory();
  * 不能实现改动一处就更改全部的要求，这是抽象工厂 demo1
