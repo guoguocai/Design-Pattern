@@ -14,6 +14,7 @@
 [4.2 用简单工厂来改进抽象工厂](#42)  
 [4.3 用反射+抽象工厂+配置文件实现](#43)  
 [5. 装饰模式](#50)   
+[6. 建造者模式](#60)  
 [001. 迪米特法则](#001)
 
 <span id="10"></span>
@@ -38,7 +39,7 @@
 Demo：  
 编写简单的计算器程序，要求输入两个数，得结果（加、减、乘、除）。  
 
-<img src="UMLDiagrams/simplefactory.png" width="60%" />
+<img src="UMLDiagrams/simplefactory.png" width="80%" />
 
 缺点：  
 如果以后计算器程序增加了计算平方的功能，那么就需要去修改简单工厂类，为其增加  
@@ -59,7 +60,7 @@ c、设计一个连接服务器的框架，需要三个协议，"POP3"、"IMAP"�
 Demo：  
 用工厂方法模式来改进用简单工厂写的计算机程序。  
 
-<img src="UMLDiagrams/factorymethod.png" width="60%" />
+<img src="UMLDiagrams/factorymethod.png" width="80%" />
 
 缺点：  
 每加一个新产品，就需要加一个产品工厂的子类，增加了额外的开发量。而且，工厂方法  
@@ -79,7 +80,7 @@ Demo1：
 最终的目的是能够修改一处就能灵活转换系统所使用的数据库，Demo1 以对 User 表和   
 Department 表的操作举例说明。  
 
-<img src="UMLDiagrams/abstractfactory1.png" width="60%" />
+<img src="UMLDiagrams/abstractfactory1.png" width="80%" />
 
 缺点：  
   
@@ -110,7 +111,7 @@ b、如果以后客户端要访问一张新表，例如要新增部门表（Depa
 Demo2：  
 用简单工厂来改进 Demo1。  
 
-<img src="UMLDiagrams/abstractfactory2.png" width="60%" />
+<img src="UMLDiagrams/abstractfactory2.png" width="80%" />
 
 <span id="43"></span>
 #### 4.3 用反射+抽象工厂+配置文件实现
@@ -139,6 +140,31 @@ Demo3：
 
 Demo：  
 给一个人动态搭配不同的服装（Avatar系统）。
+
+<img src="UMLDiagrams/decorator.png" width="80%" />
+
+<span id="60"></span>
+### 6. 建造者模式
+
+也叫生成器模式。
+
+适用场景：  
+将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。使用建造者模  
+式后，用户只需要指定需要建造的类型就可以得到它们，而具体建造的过程和细节就不需知道了。  
+
+它主要是用于创建一些复杂的对象，这些对象内部的建造顺序通常是稳定的。
+
+Demo：  
+用程序画两个特征不一样的小人。
+
+<img src="UMLDiagrams/builder.png" width="80%" />
+
+说明：  
+如果没有使用建造者模式，那么我们在画小人的时候就可能是先画一个瘦的小人，再画一个胖的小  
+人，在画第二个胖的小人的时候可能因为我们的疏忽而忘记画某一个部位，导致建造出来的对象是  
+不对的。所以当建造的步骤逐渐增多的时候，这种出错遗漏的概率就越大。
+
+
 
 <span id="001"></span>
 ### 001. 迪米特法则
