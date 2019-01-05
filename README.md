@@ -181,6 +181,8 @@ Demo：
 Demo：
 姚明刚开始去 NBA 打球时听不懂英语，做一个翻译适配器。
 
+<img src="UMLDiagrams/adapter.png" width="75%" />
+
 实际应用：  
 .NET 中的 DataAdapter，用作 DataSet 和数据源之间的适配器。
 
@@ -194,6 +196,8 @@ Demo：
 Demo：  
 记录游戏角色状态，保存游戏进度。Demo1 是不好的做法，写出来为了提醒自己不犯同样的错误，  
 推荐 Demo2 的做法。
+
+<img src="UMLDiagrams/memento.png" width="75%" />
 
 优点：  
 使用备忘录可以把复杂对象的内部信息对其他的对象屏蔽起来。当角色状态改变的时候，有可能这  
