@@ -25,6 +25,7 @@
 [14. 状态模式](#140)  
 [15. 命令模式](#150)  
 [16. 享元模式](#160)   
+<br/>
 [001. 迪米特法则](#001)
 
 <span id="10"></span>
@@ -40,7 +41,7 @@
 2.Hibernate中 的 SessionFactory，MyBatis 中的 SqlSessionFactory。  
 3.获取数据库驱动时的 DriverManager.getDriver(...)。
 
-<br/>
+&nbsp;
 <span id="20"></span>
 ### 2. 简单工厂模式
 
@@ -51,14 +52,14 @@
 Demo：  
 编写简单的计算器程序，要求输入两个数，得结果（加、减、乘、除）。  
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/simplefactory.png" width="75%" />
 
 缺点：  
 如果以后计算器程序增加了计算平方的功能，那么就需要去修改简单工厂类，为其增加  
  case 的分支条件。**修改原有的类，违反了开放-封闭原则。**
 
-<br/>
+&nbsp;
 <span id="30"></span>
 ### 3. 工厂方法模式
 
@@ -74,7 +75,7 @@ c、设计一个连接服务器的框架，需要三个协议，"POP3"、"IMAP"�
 Demo：  
 用工厂方法模式来改进用简单工厂写的计算机程序。  
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/factorymethod.png" width="75%" />
 
 缺点：  
@@ -82,7 +83,7 @@ Demo：
 模式把简单工厂的内部逻辑判断转移到了客户端来进行，客户端需要决定实例化哪一个子  
 类工厂来实现运算类，**选择判断的问题依然存在。**
 
-<br/>
+&nbsp;
 <span id="40"></span>
 ### 4. 抽象工厂模式
 <span id="41"></span>
@@ -96,7 +97,7 @@ Demo1：
 最终的目的是能够修改一处就能灵活转换系统所使用的数据库，Demo1 以对 User 表和   
 Department 表的操作举例说明。  
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/abstractfactory1.png" width="75%" />
 
 缺点：  
@@ -128,7 +129,7 @@ b、如果以后客户端要访问一张新表，例如要新增部门表（Depa
 Demo2：  
 用简单工厂来改进 Demo1。  
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/abstractfactory2.png" width="75%" />
 
 <span id="43"></span>
@@ -144,7 +145,7 @@ Demo3：
 
 小结：工厂模式包含了 3 种，在实际应用时，选用标准为**降低耦合度的目的是否达到**。
 
-<br/>
+&nbsp;
 <span id="50"></span>
 ### 5. 装饰模式
 
@@ -160,10 +161,10 @@ Demo3：
 Demo：  
 给一个人动态搭配不同的服装（Avatar系统）。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/decorator.png" width="75%" />
 
-<br/>
+&nbsp;
 <span id="60"></span>
 ### 6. 建造者模式
 
@@ -178,7 +179,7 @@ Demo：
 Demo：  
 用程序画两个特征不一样的小人。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/builder.png" width="75%" />
 
 说明：  
@@ -186,7 +187,7 @@ Demo：
 人，在画第二个胖的小人的时候可能因为我们的疏忽而忘记画某一个部位，导致建造出来的对象是  
 不对的。所以当建造的步骤逐渐增多的时候，这种出错遗漏的概率就越大。
 
-<br/>
+&nbsp;
 <span id="70"></span>
 ### 7. 适配器模式
 
@@ -200,13 +201,13 @@ Demo：
 Demo：
 姚明刚开始去 NBA 打球时听不懂英语，做一个翻译适配器。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/adapter.png" width="75%" />
 
 实际应用：  
 .NET 中的 DataAdapter，用作 DataSet 和数据源之间的适配器。
 
-<br/>
+&nbsp;
 <span id="80"></span>  
 ### 8. 备忘录模式  
 
@@ -217,7 +218,7 @@ Demo：
 记录游戏角色状态，保存游戏进度。Demo1 是不好的做法，写出来为了提醒自己不犯同样的错误，  
 推荐 Demo2 的做法。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/memento.png" width="75%" />
 
 优点：  
@@ -228,7 +229,7 @@ Demo：
 以 Demo2 为例，角色状态需要完整存储到备忘录对象中，如果状态数据很大很多，那么在资源的  
 消耗上，备忘录对象会非常耗内存。
 
-<br/>
+&nbsp;
 <span id="90"></span>
 ### 9. 模板方法模式
 
@@ -241,10 +242,10 @@ Demo：
 Demo：  
 先抄试卷，然后作答。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/template.png" width="50%" />
 
-<br/>
+&nbsp;
 <span id="100"></span>
 ### 10. 原型模式
 
@@ -255,10 +256,10 @@ Demo：
 Demo：  
 简历复印，并有可能修改其中的某份简历。Demo1 为浅复制，Demo2 为深复制。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/prototype.png" width="75%" />
 
-<br/>
+&nbsp;
 <span id="110"></span>
 ### 11. 代理模式
 
@@ -285,10 +286,10 @@ Demo：
 Demo：  
 追求者害羞，于是请一个代理人代其向美女送礼物。  
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/agent.png" width="65%" />
 
-<br/>
+&nbsp;
 <span id="120"></span>
 ### 12. 中介者模式
 
@@ -300,14 +301,14 @@ Demo：
 Demo：  
 由联合国安理会处理美国、伊拉克等国家间的问题。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/mediator.png" width="70%" />
 
 缺点：  
 由于控制集中化，中介者类的职责将越来越多，交互的复杂性变成了中介者的复杂性。因此集中控  
 制既是中介者模式的优点，也是它的缺点，使用时要考虑清楚。
 
-<br/>
+&nbsp;
 <span id="130"></span>
 ### 13. 策略模式
 
@@ -318,13 +319,13 @@ Demo：
 Demo：  
 开发一款商场收银软件，包括正常情况下的收银和有促销活动下的收银。
 
-<br/>
-<img src="UMLDiagrams/strategy.png" width="80%" />
+&nbsp;
+<img src="UMLDiagrams/strategy.png" width="75%" />
 
 注意：  
 此例用了简单工厂，但没有用到反射，所以依然存在增加分支时需要修改 switch 代码的问题。
 
-<br/>
+&nbsp;
 <span id="140"></span>
 ### 14. 状态模式
 
@@ -335,10 +336,10 @@ Demo：
 展现一个员工在不同时间的不同工作状态的变化。比如：上午精神好，中午想睡觉，下午渐恢复，  
 加班苦煎熬。
 
-<br/>
-<img src="UMLDiagrams/state.png" width="85%" />
+&nbsp;
+<img src="UMLDiagrams/state.png" width="80%" />
 
-<br/>
+&nbsp;
 <span id="150"></span>  
 ### 15. 命令模式
 
@@ -356,10 +357,10 @@ Demo：
 烧烤店点烧烤。（和烧烤摊对比来看，烧烤摊就一个人，因此接受请求，执行操作等等一系列都由  
 一个人完成，耦合太紧，客人太多时就容易出错。）
 
-<br/>
-<img src="UMLDiagrams/command.png" width="80%" />
+&nbsp;
+<img src="UMLDiagrams/command.png" width="75%" />
 
-<br/>
+&nbsp;
 <span id="160"></span>  
 ### 16. 享元模式
 
@@ -376,7 +377,7 @@ Demo：
 不同的商家都要购买网站，但网站的功能是类似的。应用了享元模式之后就不用给每一个客户都单  
 独开发一个网站了，共享一个网站的代码即可。
 
-<br/>
+&nbsp;
 <img src="UMLDiagrams/flyweight.png" width="75%" />
 
 缺点：  
