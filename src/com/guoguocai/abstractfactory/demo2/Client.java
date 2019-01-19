@@ -12,7 +12,7 @@ import com.guoguocai.abstractfactory.demo2.po.User;
  *
  * 采用这样的结构之后，一旦增加新的数据库或是
  * 新的表操作，只需要修改 DataAccess 类即可，
- * 相比 demo1 而言修改的类变少了。
+ * 相比 demo2 而言修改的类变少了。
  *
  * 但是同时也带来了简单工厂模式的缺点。
  *

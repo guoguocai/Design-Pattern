@@ -14,7 +14,7 @@ import com.guoguocai.abstractfactory.demo1.po.User;
  * 所有客户端中的:（例如）
  * IFactory factory = new OracleFactory();
  * 改为: IFactory factory = new SqlServerFactory();
- * 不能实现改动一处就更改全部的要求，这是抽象工厂 demo1
+ * 不能实现改动一处就更改全部的要求，这是抽象工厂 demo2
  * 的缺点之一。
  *
  * @auther guoguocai

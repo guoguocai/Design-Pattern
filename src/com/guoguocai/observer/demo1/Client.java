@@ -1,33 +1,38 @@
 package com.guoguocai.observer.demo1;
 
-import com.guoguocai.observer.demo1.notifyimp.Boss;
-import com.guoguocai.observer.demo1.observerimp.NBAObserver;
-import com.guoguocai.observer.demo1.observerimp.StockObserver;
+import com.guoguocai.observer.demo1.bean.Secretary;
+import com.guoguocai.observer.demo1.bean.StockObserver;
 
 /**
+ * Demo1 的两个类相互耦合，不符合设计原则。
+ * 而且同事中的这些观察者不可能都是看股票的，
+ * 也可能有看 NBA 的。
+ *
+ * 除此以外，其实老板也是属于通知者的。没被
+ * 前台通知到的就会被老板通知......
+ *
  * @auther guoguocai
- * @date 2019/1/18 23:57
+ * @date 2019/1/19 14:22
  */
 public class Client {
 
     public static void main(String[] args) {
 
-        // 老板胡汉三
-        Boss boss = new Boss();
+        // 前台小姐童之哲
+        Secretary secretary = new Secretary();
+
         // 看股票的同事
-        StockObserver stock = new StockObserver("小微", boss);
-        // 看 NBA 的同事
-        NBAObserver nba = new NBAObserver("小易", boss);
+        StockObserver stock1 = new StockObserver("阚古票", secretary);
+        StockObserver stock2 = new StockObserver("乔谷漂", secretary);
 
-        boss.attach(stock);
-        boss.attach(nba);
+        // 两位看股票的同事请前台帮忙注意老板的动向
+        secretary.attach(stock1);
+        secretary.attach(stock2);
 
-        // 小微没有被通知到，被逮个正着，因此减去。
-        boss.detach(stock);
+        // 前台发现老板回来
+        secretary.setAction("老板回来了！");
 
-        // 老板回来
-        boss.setAction("老板我胡汉三回来了");
-        // 通知大家
-        boss.notifyPeople();
+        // 通知两位同事
+        secretary.notifyPeople();
     }
 }
