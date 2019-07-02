@@ -19,9 +19,9 @@ public class SingletonPatternLazyMan {
 
     public static SingletonPatternLazyMan getInstanceLazy() {
         /* 双重锁定 */
-        if (instanceLazy == null) {
+        if (instanceLazy == null) { // 锁存在开销，此判断可避免建立不必要的锁，提高效率。
             synchronized (SingletonPatternLazyMan.class) {
-                if (instanceLazy == null) {
+                if (instanceLazy == null) {// 此判断用于防止多线程冲突，避免创建多个实例。
                     instanceLazy = new SingletonPatternLazyMan();
                 }
             }
