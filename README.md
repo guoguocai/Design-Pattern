@@ -4,29 +4,29 @@
 
 ### 目录
 
-[<font style="background-color:yellow">1.**单例模式**</font>](#10)  
+[**1.单例模式**](#10)  
 [2.简单工厂模式](#20)  
 [3.工厂方法模式](#30)  
 [4.抽象工厂模式](#40)  
 &emsp;[4.1 抽象工厂标准写法](#41)  
 &emsp;[4.2 用简单工厂来改进抽象工厂](#42)  
-&emsp;[<font style="background-color:yellow">4.3 用反射+抽象工厂+配置文件实现</font>](#43)  
-[<font style="background-color:yellow">5. 装饰模式</font>](#50)   
-[<font style="background-color:yellow">6. 建造者模式</font>](#60)  
+&emsp;[**4.3 用反射+抽象工厂+配置文件实现**](#43)  
+[**5. 装饰模式**](#50)   
+[**6. 建造者模式**](#60)  
 [7. 适配器模式](#70)  
 [8. 备忘录模式](#80)  
-[<font style="background-color:yellow">9. 模板方法模式</font>](#90)  
+[**9. 模板方法模式**](#90)  
 [10. 原型模式](#100)  
-[<font style="background-color:yellow">11. 代理模式</font>](#110)  
-[<font style="background-color:yellow">12. 中介者模式</font>](#120)   
-[<font style="background-color:yellow">13. 策略模式</font>](#130)  
-[<font style="background-color:yellow">14. 状态模式</font>](#140)  
-[<font style="background-color:yellow">15. 命令模式</font>](#150)  
-[<font style="background-color:yellow">16. 享元模式</font>](#160)   
+[**11. 代理模式**](#110)  
+[**12. 中介者模式**](#120)   
+[**13. 策略模式**](#130)  
+[**14. 状态模式**](#140)  
+[**15. 命令模式**](#150)  
+[**16. 享元模式**](#160)   
 [17. 组合模式](#170)  
 [18. 桥接模式](#180)   
 [19. 观察者模式](#190)   
-[<font style="background-color:yellow">20. 责任链模式</font>](#200)  
+[**20. 责任链模式**](#200)  
 [21. 访问者模式](#210)   
 <br/>
 [001. 迪米特法则](#001)  
@@ -323,8 +323,7 @@ Demo：
 当一个对象的行为取决于它的状态，并且它必须在运行时刻根据状态改变它的行为时。这个模式非常常用，因为一个系统不可能没有状态，比如常见的订单状态、付款状态等等，都能用上。
 
 Demo：  
-展现一个员工在不同时间的不同工作状态的变化。比如：上午精神好，中午想睡觉，下午渐恢复，  
-加班苦煎熬。
+展现一个员工在不同时间的不同工作状态的变化。比如：上午精神好，中午想睡觉，下午渐恢复，加班苦煎熬。
 
 &nbsp;
 <img src="UMLDiagrams/state.png" width="80%" />
