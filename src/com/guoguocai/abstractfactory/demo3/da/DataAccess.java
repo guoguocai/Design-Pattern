@@ -101,6 +101,8 @@ public class DataAccess {
 //        System.out.println(inputStream);
 
         // 加载位于src/mian/java（classpath）目录下的配置文件，使用classLoader加载器
+        // 站在 JVM 的角度，每个类被 load 到内存后都会被当成一个 Class 的对象，
+        // 所以能用 getClassLoader() 拿到装载这个 Class 对象的类装载器。
 //        inputStream = DataAccess.class.getClassLoader().getResourceAsStream("DBName2.properties");
 //        System.out.println(inputStream);
 
