@@ -5,6 +5,7 @@ import com.guoguocai.agent.demo2.interfaces.Moveable;
 // 代理类需实现同一个接口
 public class TankProxyLog implements Moveable {
 
+    // 这种引用方式就叫做聚合
     // 被代理的对象用父类接口声明
     Moveable tank;
 
