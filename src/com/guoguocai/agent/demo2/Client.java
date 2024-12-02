@@ -2,6 +2,7 @@ package com.guoguocai.agent.demo2;
 
 import com.guoguocai.agent.demo2.dynamic.GeneralProxy;
 import com.guoguocai.agent.demo2.external.Tank;
+import com.guoguocai.agent.demo2.imp.LogHandler;
 import com.guoguocai.agent.demo2.imp.TankProxyLog;
 import com.guoguocai.agent.demo2.imp.TankProxyTime;
 import com.guoguocai.agent.demo2.imp.TimeHandler;
@@ -33,8 +34,10 @@ public class Client {
          */
         System.out.println();
         System.out.println("========= Dynamic Proxy : =========");
-        Moveable proxyInstance = (Moveable) GeneralProxy.newProxyInstance(Moveable.class, new TimeHandler());
-        proxyInstance.move();
+        Moveable tank2 = new Tank();
+        Moveable proxyInstance1 = (Moveable) GeneralProxy.newProxyInstance(Moveable.class, new LogHandler(tank2));
+        Moveable proxyInstance2 = (Moveable) GeneralProxy.newProxyInstance(Moveable.class, new TimeHandler(proxyInstance1));
+        proxyInstance2.move();
 
     }
 }
