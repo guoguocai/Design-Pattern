@@ -39,5 +39,11 @@ public class Client {
         Moveable proxyInstance2 = (Moveable) GeneralProxy.newProxyInstance(Moveable.class, new TimeHandler(proxyInstance1));
         proxyInstance2.move();
 
+        /**
+         * 总结：动态代理好处多多，可以在不影响已上线功能的情况下增加额外操作，
+         * 并且这些额外操作可叠加、可互换、可插拔。理解了动态代理，也就理解了
+         * AOP(Aspect-Oriented Programming)。
+         */
+
     }
 }

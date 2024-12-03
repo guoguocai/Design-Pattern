@@ -12,11 +12,16 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+/**
+ * 生成动态代理的逻辑一旦写好，就再也不用改动，
+ * 使用者也不用再关心实现过程，直接用即可。
+ */
 public class GeneralProxy {
 
     public static Object newProxyInstance(Class interfaced, InvocationHandler handler) {
 
         // 每个接口的方法名不可能一样，并且一个接口可能有多个方法需要实现，先组装这部分
+        // 注意：对象不能直接拼接到字符串上，要重新在字符串内部获取
         String methodStr = "";
         Method[] methods = interfaced.getMethods();
         for (Method method : methods) {
@@ -73,6 +78,7 @@ public class GeneralProxy {
             // 根据参数类型获取代理类对应的构造方法，有参传参
             Constructor ctr = c.getConstructor(InvocationHandler.class);
             return ctr.newInstance(handler);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
