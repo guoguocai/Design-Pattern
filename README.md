@@ -371,13 +371,35 @@ Demo：
 如果一个应用程序使用了大量对象，而这些大量的对象造成了很大的存储开销时，就可以考虑使用享元模式。还有就是如果对象的大多数状态可以写到外部，一旦删除掉外部状态后可以用相对较少的共享对象取代，此时也可以考虑使用。
 
 举例说明：  
-1. 常用的 String 字符串；  
+1. String 字符串常量池；  
 
-2. 围棋、五子棋等游戏中的棋子对象。
+2. 围棋、五子棋等游戏中的棋子对象；
 
 3. 用到了缓存的地方，基本都是在用享元模式。
 
-   比如：直接赋值给 Integer 变量的底层操作使用的是 Integer.valueOf 方法，通过阅读 valueOf 的源码可以知道，针对 -128 到 127 之间的数据，Integer 做了一个数据缓冲池。IntegerCache.cache 默认先创建并缓存 -128 ~ 127 之间数字的 Integer 对象，当调用 valueOf 时，如果参数在 -128 ~ 127 之间，则计算下标并从缓存中返回，否则就创建一个新的 Integer 对象。此处就使用了享元模式，将频繁被请求的值缓存起来，能提高时间和空间性能。
+   以 Integer 为例，直接给 Integer 变量赋值的底层操作是使用的 Integer.valueOf 方法，通过阅读 valueOf 的源码可以知道，Integer 默认创建并缓存了 -128 ~ 127 的 Integer 对象，当调用 valueOf 时，如果参数在 -128 ~ 127 范围内，则直接从缓存中返回，否则就创建一个新的 Integer 对象：
+   
+   ```java
+   public static Integer valueOf(int i) {
+       if (i >= IntegerCache.low && i <= IntegerCache.high)
+           return IntegerCache.cache[i + (-IntegerCache.low)];
+       return new Integer(i);
+   }
+   ```
+   
+   这里顺便提一下 Integer 的这种设计会导致下面情况发生：
+   
+   ```java
+   Integer a = 128;// new 的新实例
+   Integer b = 128;// new 的新实例
+   System.out.println("a == b: " + (a == b));// 输出 false
+   
+   Integer c = 127;// 缓存中的
+   Integer d = 127;// 缓存中的
+   System.out.println("c == d: " + (c == d));// 输出 true
+   ```
+   
+   因此，如果要比较两个 Integer 类型的值，靠谱的方式是通过 Integer.intValue() 取出 int 值后再作比较。
 
 Demo：  
 不同的商家都要购买网站，但网站的功能是类似的。应用了享元模式之后就不用给每一个客户都单独开发一个网站了，共享一个网站的代码即可。
