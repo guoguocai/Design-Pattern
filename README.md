@@ -64,9 +64,63 @@
 
 所谓工厂，在现实中指的是生产自己产品的地方，在 Java 中也是一样，工厂类用来控制产生对象的逻辑。在传统的编程模式中，对象的创建、组装都是由开发人员手动完成，比如使用 new 来产生对象，但这种方式有一个缺点，就是用 new 产生对象太容易了，任何地方都可以 new，如果我们想要控制产生对象的数量或者增加一些扩展性，就比较麻烦。有了工厂模式后，这个问题就迎刃而解了。
 
-Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的方式产生，而是全部交给外部的 Spring IOC 容器来管理，即控制对象的主体发生了反转。开发人员只需在配置文件中或使用注解指定对象的依赖关系，容器再利用 Java 的反射机制，就能根据配置动态的自动创建对象、注入依赖对象并管理对象的生命周期，这样一来既实现了低耦合，也提升了可维护性（控制反转（IOC）是一种设计原则，依赖注入（DI）是它的一种具体实现方式，包括构造函数注入、属性注入和方法注入）。
+Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的方式产生，而是全部交给外部的 Spring IOC 容器来管理，即控制对象的主体发生了反转。开发人员只需在配置文件中或使用注解指定对象的依赖关系，容器再利用 Java 的反射机制，就能根据配置动态的自动创建对象、注入依赖对象并管理对象的生命周期，这样一来既实现了低耦合，也提升了可维护性。
 
-适用场景：  
+控制反转（IOC）是一种设计原则，依赖注入（DI）是它的一种具体实现方式，主要包括：
+
+- **构造器注入（推荐）**：通过类的构造方法注入依赖项，依赖不可变，线程安全，能避免循环依赖问题。
+
+  ```java
+  @Component
+  public class UserService {
+      private final UserRepository userRepository;
+      
+      @Autowired // Spring 4.3+ 可省略（单个构造器时）
+      public UserService(UserRepository userRepository) {
+          this.userRepository = userRepository;
+      }
+  }
+  ```
+
+- **Setter 注入**：通过 setter 方法注入依赖项，依赖可选，灵活性高。
+
+  ```java
+  @Component
+  public class OrderService {
+      private PaymentService paymentService;
+      
+      @Autowired
+      public void setPaymentService(PaymentService paymentService) {
+          this.paymentService = paymentService;
+      }
+  }
+  ```
+
+- **属性注入**：直接通过属性注入依赖，代码简洁，但隐藏了依赖关系，不利于代码维护，仅在快速开发中临时使用，‌不推荐。
+
+  ```java
+  @Component
+  public class ProductService {
+      @Autowired
+      private InventoryService inventoryService;
+  }
+  ```
+
+- **接口注入**：通过实现特定接口（如 ApplicationContextAware）注入容器相关对象，在需要操作容器时使用（如动态获取 Bean）。
+
+  ```java
+  @Component
+  public class MyBean implements ApplicationContextAware {
+      private ApplicationContext context;
+      
+      @Override
+      public void setApplicationContext(ApplicationContext context) {
+          this.context = context;
+      }
+  }
+  ```
+
+首先介绍简单工厂，它的适用场景为：  
 工厂类中包含了必要的逻辑判断，可以根据客户端的选择条件动态地实例化相关的类，对于客户端来说，去除了与具体产品的依赖。
 
 Demo：  
@@ -275,7 +329,11 @@ Demo：
 概念：  
 为对象提供一种代理用来控制对此对象的访问，可理解为代理就是真实对象的代表，应用广泛。分为静态代理（编译期，代理类是程序员写好的）和动态代理（运行期，代理类是动态生成的，动态生成的逻辑自然也是程序员来写，常见的是用字符串拼接加反射实现，只不过是一般写好生成动态代理对象的逻辑后就不需要再去改动，后续只需实现接口写具体的代理业务即可）。
 
-适用场景：  
+Spring AOP 是应用动态代理的典型例子，它有两种底层实现方式：  
+（A）**JDK 动态代理**：基于接口实现，要求目标类必须实现至少一个接口‌，通过 Proxy 类和 InvocationHandler 接口以反射的方式生成代理类，代理类与目标类是兄弟关系（两者实现同一接口）‌；  
+（B）**CGLIB 动态代理**（默认）：基于继承实现，可代理任意类‌，通过 ASM 框架生成目标类的子类字节码实现代理‌，代理类与目标类是父子关系（子类扩展父类）‌。
+
+代理模式的适用场景：  
 1.远程代理。也就是为一个对象在不同的地址空间提供局部代表，这样可以隐藏一个对象存在于不同地址空间的事实。例如：在创建 WebService 客户端的时候，我们会引用一个 WebService 地址，然后生成一些相关的客户端文件，其实这些文件就是代理，使得我们可以通过调用它们就能实现远程访问，而在使用时就跟调用本地方法一样简单。
 
 2.虚拟代理。根据需要创建开销很大的对象，然后通过它来存放实例化需要很长时间的真实对象，这样的做法可以提高性能。例如：当我们打开一个很大的 HTML 网页时，文字能很快看到，但是图片需要一张一张下载后才能看到。那些未打开的图片框，就是通过虚拟代理替代了真实的图片，此时代理存储了真实图片的路径和尺寸。
@@ -297,6 +355,7 @@ Demo1 的 UML 图：
 
 &nbsp;
 <span id="120"></span>
+
 ### 12. 中介者模式
 
 适用场景：  
