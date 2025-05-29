@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * 所有用到简单工厂的地方，都可以考虑用反射来
- * 去除 switch 或者 if，从而解除分支判断带
+ * 消除 switch 或者 if，从而解除分支判断带
  * 来的耦合。
  *
  * @auther guoguocai
@@ -50,8 +50,8 @@ public class DataAccess {
          * 拼接字符串，注意 className 包含包名。
          *
          * Demo1、Demo2 都是用的具体的数据库类来实例化，让其不得不
-         * 进行 switch 或者是 if 的判断；Demo3 的核心就在于反射用
-         * 字符串来实例化对象，而字符串存在变量中是可以更换的。
+         * 进行 switch 或者是 if 的判断；Demo3 的核心就在于用反射
+         * 字符串来实例化对象，而字符串是可以拼接和更换的。
          */
         String className = "com.guoguocai.abstractfactory.demo3.userimp." + db +"UserOperation";
 
