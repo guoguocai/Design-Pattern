@@ -63,24 +63,66 @@
 
 ### 2. 简单工厂模式
 
-所谓工厂，在现实中指的是生产自己产品的地方，在 Java 中也是一样，工厂类用来控制产生对象的逻辑。在传统的编程模式中，对象的创建、组装都是由开发人员手动完成，比如使用 new 来产生对象，但这种方式有一个缺点，就是用 new 产生对象太容易了，任何地方都可以 new，如果我们想要控制产生对象的数量或者增加一些扩展性，就比较麻烦。有了工厂模式后，这个问题就迎刃而解了。
+所谓工厂，在现实中指的是生产自己产品的地方，在 Java 中也是一样，工厂类用来控制产生对象的逻辑。在传统的编程模式中，对象的创建、组装都是由开发人员手动完成，比如使用 new 来产生对象，但这种方式有一个缺点，就是用 new 产生对象太容易了，任何地方都可以 new，如果我们想要控制产生对象的数量或者增加一些扩展性，就比较麻烦。有了工厂模式后，它可以集中处理这些问题，调用方拿来即用。
 
-Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的方式产生，而是交给外部的 Spring IOC 容器来管理，即控制对象的主体发生了反转。开发人员只需在配置文件中或使用注解注册类，容器再利用 Java 的反射机制，就能动态的自动创建对象和管理对象间的依赖关系，这样一来既实现了低耦合，也提升了可维护性。
+Spring 的 IOC 也用到了这个思想，对象不再由开发人员用 new 的方式产生，而是交给外部的 Spring IOC 容器来管理，即控制对象的主体发生了反转。开发人员只需在 XML 文件中或使用注解注册类，容器再利用 Java 的反射机制，就能动态的自动创建对象和管理对象间的依赖关系，这样一来既实现了低耦合，也提升了可维护性。
+
+Bean 就是由 Spring IOC 容器创建、组装和管理的 Java 对象，常见的有应用程序的服务类、数据访问对象和模型类等，与普通对象相比，Bean 的最大特点是能够通过容器进行依赖注入和生命周期管理。
 
 控制反转（IOC）是一种设计原则，依赖注入（DI）是它的一种具体实现方式，主要包括：
 
 - **构造器注入（推荐）**：通过类的构造方法注入依赖项，依赖不可变，线程安全，能避免循环依赖问题。
 
   ```java
-  @Component
-  public class UserService {
+  @Service
+  public class UserServiceImpl {
+      
       private final UserRepository userRepository;
       
       @Autowired // Spring 4.3+ 可省略（单个构造器时）
-      public UserService(UserRepository userRepository) {
+      public UserServiceImpl(UserRepository userRepository) {
           this.userRepository = userRepository;
       }
   }
+  ```
+
+  Spring Boot 3.x 支持自动装配构造函数参数，前提是构造函数参数的类型唯一，即容器中只有一个 UserRepository bean，此时在代码中不写 @Autowired 也能完成注入：
+
+  ```java
+  @Service
+  @RequiredArgsConstructor
+  public class UserServiceImpl {
+      
+      // @RequiredArgsConstructor 由 Lombok 提供，会自动生成 final 字段的构造函数，因此建议保
+      // 持字段为 final。使用 @AllArgsConstructor 也可以，它会生成一个包含所有字段的构造函数。
+      private final UserRepository userRepository;
+      
+  }
+  ```
+
+  如果代码使用的依赖注入方式不是构造器注入，且 Spring Bean 的作用域为 singleton 时，那么 Spring 会通过<u>三级缓存机制</u>解决循环依赖：  
+  一级缓存（SingletonObjects）存放完全初始化好的单例 Bean：  
+
+  ```java
+  UserService userService = new UserService(); 
+  userService.setUserDao(userDao); // 属性已注入
+  userService.init();              // 初始化方法已执行
+  ```
+
+  二级缓存（earlySingletonObjects）存放仅实例化、但未填充属性的半成品 Bean‌：（注入半成品可打破循环）
+
+  ```java
+  UserService userService = new UserService(); 
+  // 未设置属性！未执行init()！
+  ```
+
+  三级缓存（SingletonFactories）存放生成半成品 Bean 的工厂对象（含 AOP 代理）：
+
+  ```java
+  ObjectFactory<?> factory = () -> {
+      UserService proxy = new UserService(); 
+      return AopProxyUtils.applyAutoProxy(proxy); // 可能返回代理对象
+  };
   ```
 
 - **Setter 注入**：通过 setter 方法注入依赖项，依赖可选，灵活性高。
@@ -88,6 +130,7 @@ Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的
   ```java
   @Component
   public class OrderService {
+      
       private PaymentService paymentService;
       
       @Autowired
@@ -112,6 +155,7 @@ Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的
   ```java
   @Component
   public class MyBean implements ApplicationContextAware {
+      
       private ApplicationContext context;
       
       @Override
@@ -124,7 +168,15 @@ Spring 的 IOC 就用到了这个思想，对象不再由开发人员用 new 的
 @Autowired 可用于构造函数、成员变量和 Setter 方法。除了 @Autowired 以外，注解 @Resource 和 @Inject 也可实现依赖注入，它们的区别如下：
 
 - **@Autowired**：是 Spring 特有的注解，在纯 Spring 项目中为首选，默认<u>按类型找</u>，找不到或找到多个则抛异常；当按类型可找到多个匹配的 bean 时，可通过 @Qualifier("beanName") 指定要注入的 bean 名称或用 @Primary 将其中一个 bean 标记为首选。
+
+  ```java
+  @Autowired
+  @Qualifier("service1") // 与实现类的 @Service("service1") 对应，如果 IUserService 有多个实现类的话
+  private IUserService userService;
+  ```
+
 - **@Resource**：是 Java 标准的一部分，默认<u>按名称找</u>，写法为 @Resource(name="beanName")，若未指定 name，则自动使用被注解的属性名查找，若按名称找不到，则回退到按类型查找；另外，@Resource 不支持用在构造函数上。
+
 - **@Inject**：是 Java 新标准的一部分，默认<u>按类型找</u>，行为与 @Autowired 类似，若可找到多个，可通过 @Named("beanName") 指定要注入的 bean 名称来解决。
 
 下面介绍简单工厂，虽然它不属于正式设计模式，但它经常作为基础形态被广泛讨论，特点为：一个工厂类，根据传入参数创建不同类型的对象，工厂类中包含了必要的逻辑判断，对于客户端来说，去除了与具体产品的依赖。实际应用如 Spring 的 bean 工厂，BeanFactory 根据传入的唯一标识（如 bean 名称）决定创建哪个 bean 对象，而无需关心对象的具体创建过程‌。
@@ -335,7 +387,7 @@ Demo：
 概念：  
 为对象提供一种代理用来控制对此对象的访问，可理解为代理就是真实对象的代表，应用广泛。分为静态代理（编译期，代理类需在编译代码之前写好）和动态代理（运行期，代理类由代码动态生成，动态生成的逻辑自然也是由程序员来写，只不过一般写好后就不需要再去改动）。原先的类不用进行任何改变，直接访问代理类即可，符合开放-封闭原则。
 
-Spring AOP 是应用动态代理的典型例子（AOP 用于将那些与业务无关，但却对多个对象产生影响的公共行为和逻辑，如安全、事务、日志、权限等，抽取并封装为一个可重用的模块，这个模块被称为切面，从而减少重复代码、降低耦合度），它有两种底层实现方式：
+使用动态代理的典型例子包括 Spring AOP（AOP 用于将那些与业务无关，但却对多个对象产生影响的公共行为和逻辑，如安全、事务、日志、权限等，抽取并封装为一个可重用的模块，这个模块被称为切面，从而减少重复代码、降低耦合度）、MyBatis 中的 Mapper 接口（由代理对象拦截方法、执行 SQL、返回结果）等。动态代理有两种底层实现方式：
 
 （A）**JDK 动态代理**：基于接口实现，要求目标类必须实现至少一个接口‌，代理类也实现同一接口，然后用字符串拼接加反射的方式生成代理类对象，代理类与目标类是兄弟关系（创建代理实例‌的逻辑封装在 Proxy 类中，后续只需实现 InvocationHandler 接口扩展具体的代理业务即可）。
 
@@ -649,7 +701,7 @@ Demo：
 
 概念：  
 一个类里面拥有另外一个类的引用，就是一个聚合。  
-其实这在平常开发中非常常用，只是我们不知道它还有这样一个名字，自然而然就用了，这也告诉我们不要老去咬文嚼字，不要纠结字眼，该怎么设计就怎么设计就好了。继承是一种强耦合的结构，父类一变，子类就跟着变，当我们感觉用类继承的方式比较麻烦的时候，那就尽量用聚合来代替。
+其实这在平常开发中非常常用，只是我们不知道它还有这样一个名字，自然而然就用了，这也告诉我们不要老是纠结字眼，该怎么设计就怎么设计就行了。继承是一种强耦合的结构，父类一变，子类就跟着变，当我们感觉用继承比较麻烦的时候，那就尽量用聚合来代替。（对数据进行聚合的意思是：处理一组数据然后返回单一的结果，如计数、求和、求平均值、SQL 中的 count(*) ... group by）
 
 好处：  
-优先使用对象的合成或聚合将有助于保持每个类被封装，并被集中在单个任务上。这样的类和类继承层次会保持较小规模，并且不太可能增长为不可控制的庞然大物。
+优先使用对象的合成或聚合有助于保持每个类被封装，并集中于单个任务上，类和类继承层次规模也会比较小。
